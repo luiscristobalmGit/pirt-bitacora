@@ -1,0 +1,37 @@
+{
+    "java.project.sourcePaths": ["src/main/java"],
+    "java.project.outputPath": "target/classes",
+    "java.project.importOnFirstTimeStartup": "automatic",
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "java.import.gradle.enabled": false,
+    "java.import.maven.enabled": true,
+    "java.server.launchMode": "Standard",
+    "java.errors.incompleteClasspath.severity": "ignore",
+    "files.exclude": {
+        "**/.classpath": true,
+        "**/.project": true,
+        "**/.settings": true,
+        "**/.factorypath": true,
+        "**/.vscode": false
+    },
+    "java.import.generatesMetadataFilesAtProjectRoot": false,
+    "java.jdt.ls.java.home": "C:\\Program Files\\Java\\jdk-17",
+    "java.project.lombokSupport.enabled": true,
+    "java.configuration.runtimes": [
+        {
+            "name": "JavaSE-17",
+            "path": "C:\\Program Files\\Java\\jdk-17",
+            "default": true
+        }
+    ],
+    "java.jdt.ls.vmargs": "-Xmx2G -XX:+UseG1GC -XX:+HeapDumpOnOutOfMemoryError",
+    "java.completion.importOrder": ["java", "javax", "jakarta", "com", "org", "mx"],
+    "java.format.settings.url": "eclipse-formatter.xml",
+    "java.format.settings.profile": "GoogleStyle",
+    "java.refactor.renameFromFileExplorer": "auto-apply",
+    "java.autoBuild": "enabled",
+    "maven.terminal.useJavaHome": true,
+    "java.import.exclusions": ["**/node_modules/**"],
+    "java.trace.server": "messages",
+    "java.compile.nullAnalysis.mode": "automatic"
+}
