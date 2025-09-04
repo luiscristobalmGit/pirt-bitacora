@@ -5,13 +5,14 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.18</version> <!-- Versión actualizada a la última patch -->
+        <version>2.7.18</version> <!-- Última versión patch de 2.7.x -->
         <relativePath/>
     </parent>
 
     <groupId>mx.gob.sev</groupId>
     <artifactId>pirt-bitacora</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>war</packaging>
     <name>pirt-bitacora</name>
     <description>Servicio de bitácora para PIRT</description>
 
@@ -21,8 +22,9 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <!-- Versiones específicas para otras dependencias -->
         <modelmapper.version>3.1.1</modelmapper.version>
+        <mssql-jdbc.version>12.4.2.jre11</mssql-jdbc.version>
+        <surefire-plugin.version>2.22.2</surefire-plugin.version>
     </properties>
 
     <dependencies>
@@ -53,7 +55,7 @@
             <groupId>com.microsoft.sqlserver</groupId>
             <artifactId>mssql-jdbc</artifactId>
             <scope>runtime</scope>
-            <version>12.4.2.jre11</version> <!-- Versión específica para JDBC -->
+            <version>${mssql-jdbc.version}</version>
         </dependency>
 
         <!-- Lombok -->
@@ -87,9 +89,17 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <!-- Tomcat Embedded -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -103,24 +113,39 @@
                     </excludes>
                 </configuration>
             </plugin>
-            <!-- Plugin para compilación más estricta -->
+            
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
                     <parameters>true</parameters>
+                    <compilerArgs>
+                        <arg>-Xlint:unchecked</arg>
+                        <arg>-Xlint:deprecation</arg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
-            <!-- Plugin para empaquetado -->
+            
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.2</version>
+                <version>${surefire-plugin.version}</version>
+                <configuration>
+                    <skipTests>false</skipTests>
+                </configuration>
+            </plugin>
+            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.3.2</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
             </plugin>
         </plugins>
     </build>
 
-    <!-- Perfiles adicionales para diferentes entornos -->
     <profiles>
         <profile>
             <id>dev</id>
@@ -136,6 +161,17 @@
             <properties>
                 <activatedProperties>prod</activatedProperties>
             </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <skipTests>true</skipTests>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
     </profiles>
 </project>

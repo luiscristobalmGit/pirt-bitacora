@@ -1,11 +1,14 @@
 package mx.gob.sev.serv.service;
 
-import mx.gob.sev.serv.dto.BitacoraResponse;
-import mx.gob.sev.serv.dto.BitacoraRequest;
+import mx.gob.sev.serv.dto.*;
 import java.util.List;
 
 public interface BitacoraService {
-    BitacoraResponse save(BitacoraRequest request);
-    List<BitacoraResponse> findAll();
-    BitacoraResponse findById(Integer id);
+    BitacoraResponse create(BitacoraRequest request);
+    BitacoraResponse update(BitacoraUpdateRequest request);
+    BitacoraResponse delete(Integer id);
+    BitacoraResponse getById(Integer id);
+    List<BitacoraDetalleResponse> getAll();
+    BitacoraPageResponse getWithFilters(Integer id, Integer idUsuarios, Integer idAcciones, 
+                                      Integer activo, int pagina, int registrosPorPagina);
 }

@@ -13,13 +13,13 @@ public class Accion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(columnDefinition = "INT") // Especificamos el tipo de columna
-    private Integer id; // Cambiado de Long a Integer
+    private Integer id; 
 
     @Column(nullable = false)
     private String accion;
 
     @Column(nullable = false)
-    private boolean activo = true;
+    private Integer activo = 1;
 
     @Column(name = "FechaCreacion", nullable = false)
     private LocalDateTime fechaCreacion = LocalDateTime.now();

@@ -21,7 +21,7 @@ public class Bitacora {
     private Accion accion;
 
     @Column(nullable = false)
-    private boolean activo = true;
+    private Integer activo = 1;
 
     @Column(name = "FechaCreacion", nullable = false, updatable = false)
     private LocalDateTime fechaCreacion = LocalDateTime.now();

@@ -16,10 +16,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<Object> handleNotFoundException(NotFoundException ex, WebRequest request) {
-        Map<String, Object> body = new LinkedHashMap<>();
-        body.put("timestamp", LocalDateTime.now());
-        body.put("message", ex.getMessage());
-        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+        return buildErrorResponse(ex, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ServiceException.class)
+    public ResponseEntity<Object> handleServiceException(ServiceException ex, WebRequest request) {
+        return buildErrorResponse(ex, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(Exception.class)
@@ -27,6 +29,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", LocalDateTime.now());
         body.put("message", "Ocurrió un error inesperado");
+        body.put("details", ex.getMessage());
         return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    private ResponseEntity<Object> buildErrorResponse(Exception ex, HttpStatus status) {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("message", ex.getMessage());
+        return new ResponseEntity<>(body, status);
     }
 }
